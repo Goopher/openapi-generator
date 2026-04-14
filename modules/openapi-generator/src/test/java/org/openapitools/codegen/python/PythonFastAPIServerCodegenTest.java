@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
+import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
 public class PythonFastAPIServerCodegenTest {
 
@@ -53,5 +54,17 @@ public class PythonFastAPIServerCodegenTest {
 
         assertFileExists(p);
         assertFileContains(p, "body: Optional[Dict[str, Any]] = Body(None, description=\"\"),");
+    }
+
+    @Test(description = "binary response type is mapped to bytes, not file or str")
+    public void testBinaryResponseType() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-fastapi/binary-response.yaml");
+        final Path api = Paths.get(outputPath + "src/openapi_server/apis/default_api.py");
+
+        assertFileExists(api);
+        assertFileContains(api, ") -> bytes:");
+        assertFileNotContains(api, ") -> file:");
+        assertFileNotContains(api, ") -> str:");
     }
 }

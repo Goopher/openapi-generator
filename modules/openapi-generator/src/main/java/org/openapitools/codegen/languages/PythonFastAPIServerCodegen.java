@@ -117,8 +117,11 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
         languageSpecificPrimitives.add("List");
         languageSpecificPrimitives.add("Dict");
+        languageSpecificPrimitives.add("bytes");
         typeMapping.put("array", "List");
         typeMapping.put("map", "Dict");
+        typeMapping.put("file", "bytes");
+        typeMapping.put("binary", "bytes");
 
         outputFolder = "generated-code" + File.separator + NAME;
         modelTemplateFiles.put("model.mustache", ".py");

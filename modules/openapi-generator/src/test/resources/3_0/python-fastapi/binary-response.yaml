@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: Binary Response Test
+  version: 0.0.1
+paths:
+  /download/{asset_id}:
+    get:
+      summary: Download a binary file
+      operationId: download_file
+      parameters:
+        - name: asset_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Binary file content
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Not found
